@@ -1,0 +1,639 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "version": "1.0.0",
+    "title": "COM3504 coursework",
+    "description": "User management API",
+    "termsOfService": "http://api_url/terms/",
+    "contact": {
+      "name": "Boxuan Shan, Jingxiang Qi, Ziting Zhao",
+      "email": "bshan3@sheffield.ac.uk",
+      "url": "https://github.com/ace18zz/COM3504The-Intelligent-Web"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/",
+      "description": "Main server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "Get the home page",
+        "operationId": "index",
+        "responses": {
+          "200": {
+            "description": "Web Page",
+            "content": {
+              "text/html": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "description": "Api for searching images by auther",
+        "parameters": [
+          {
+            "name": "authorName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgAuthor"
+            },
+            "allowEmptyValue": true
+          }
+        ],
+        "operationId": "search",
+        "responses": {
+          "200": {
+            "description": "Correct input of search structure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImgMetaListRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/img/all": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "description": "Get full data for all the images",
+        "operationId": "img.all",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImgListRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                },
+              }
+            }
+          }
+        }
+      }
+    },
+    "/img/meta": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "description": "Get metadata of all the images",
+        "operationId": "img.meta",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImgMetaListRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                },
+              }
+            }
+          }
+        }
+      }
+    },
+    "/img/{imgId}": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "description": "Get full data of an image",
+        "operationId": "img.id",
+        "parameters": [
+          {
+            "name": "imgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct image id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImgRes"
+                },
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                },
+                "example": "Error: Invalid data"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/img/meta/{imgId}": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "description": "Get metadata of an image",
+        "operationId": "img.meta.id",
+        "parameters": [
+          {
+            "name": "imgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct image id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImgMetaRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/img/raw/{imgId}": {
+      "get": {
+        "tags": [
+          "Image"
+        ],
+        "description": "Get raw format of an image",
+        "operationId": "img.raw.id",
+        "parameters": [
+          {
+            "name": "imgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Correct image id",
+            "content": {
+              "image/png": {
+                "schema": {
+                  "$ref": "#/components/schemas/imgRaw"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload": {
+      "get": {
+        "tags": [
+          "Upload"
+        ],
+        "description": "Get upload page",
+        "operationId": "upload.get",
+        "responses": {
+          "200": {
+            "description": "Web Page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Upload"
+        ],
+        "description": "Upload an image",
+        "operationId": "upload.post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Correct upload structure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadRes"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Invalid request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/errorMsg"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/join/{imgId}": {
+      "get": {
+        "tags": [
+          "Join"
+        ],
+        "description": "Get join page for a image",
+        "operationId": "join",
+        "parameters": [
+          {
+            "name": "imgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgId"
+            }
+          },
+          {
+            "name": "roomId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/roomId"
+            },
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Web page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/join/offline": {
+      "get": {
+        "tags": [
+          "Join"
+        ],
+        "description": "Get offline join page for service worker",
+        "operationId": "join.offline",
+        "responses": {
+          "200": {
+            "description": "Web Page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/room/{imgId}/{roomId}": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "description": "Get room page for a image",
+        "operationId": "room",
+        "parameters": [
+          {
+            "name": "imgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/imgId"
+            }
+          },
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/roomId"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Web page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    },
+    "/room/offline": {
+      "get": {
+        "tags": [
+          "Room"
+        ],
+        "description": "Get offline room page for service worker",
+        "operationId": "room.offline",
+        "responses": {
+          "200": {
+            "description": "Web Page",
+            "content": {
+              "text/html": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "statusCode": {
+        "type": "integer",
+        "description": "Internal status code for response, value 0 for no error",
+        "example": 0
+      },
+      "errorMsg": {
+        "type": "string",
+        "description": "Error message",
+        "example": "Invalid data!"
+      },
+      "imgId": {
+        "type": "string",
+        "description": "Image ID",
+        "example": "605c6c684431fa7cd4b36134"
+      },
+      "imgTitle": {
+        "type": "string",
+        "description": "Image title",
+        "example": "Untitled - 1"
+      },
+      "imgAuthor": {
+        "type": "string",
+        "description": "Image author",
+        "example": "User1"
+      },
+      "imgDesc": {
+        "type": "string",
+        "description": "Image description",
+        "example": "This is an image"
+      },
+      "imgData": {
+        "type": "string",
+        "description": "Data url of an image",
+        "example": "data:image/gif;base64,R0lGODlh..."
+      },
+      "imgRaw": {
+        "type": "string",
+        "description": "Raw image data",
+        "format": "binary"
+      },
+      "ImgObj": {
+        "type": "object",
+        "description": "Full data of an image",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/imgId"
+          },
+          "title": {
+            "$ref": "#/components/schemas/imgTitle"
+          },
+          "author": {
+            "$ref": "#/components/schemas/imgAuthor"
+          },
+          "desc": {
+            "$ref": "#/components/schemas/imgDesc"
+          },
+          "data": {
+            "$ref": "#/components/schemas/imgData"
+          }
+        }
+      },
+      "ImgRes": {
+        "type": "object",
+        "description": "Response of an image's full data",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/statusCode"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ImgObj"
+          }
+        }
+      },
+      "ImgList": {
+        "type": "array",
+        "description": "A list of images' full data",
+        "items": {
+          "$ref": "#/components/schemas/ImgObj"
+        }
+      },
+      "ImgListRes": {
+        "type": "object",
+        "description": "Response of a list of images' full data",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/statusCode"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ImgList"
+          }
+        }
+      },
+      "ImgMetaObj": {
+        "type": "object",
+        "description": "Metadata of an image",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/imgId"
+          },
+          "title": {
+            "$ref": "#/components/schemas/imgTitle"
+          },
+          "author": {
+            "$ref": "#/components/schemas/imgAuthor"
+          },
+          "desc": {
+            "$ref": "#/components/schemas/imgDesc"
+          }
+        }
+      },
+      "ImgMetaRes": {
+        "type": "object",
+        "description": "Response of an image's matadata",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/statusCode"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ImgMetaObj"
+          }
+        }
+      },
+      "ImgMetaList": {
+        "type": "array",
+        "description": "A list of images' matadata",
+        "items": {
+          "$ref": "#/components/schemas/ImgMetaObj"
+        }
+      },
+      "ImgMetaListRes": {
+        "type": "object",
+        "description": "Resopnse of a list of images' matadata",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/statusCode"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ImgMetaList"
+          }
+        }
+      },
+      "uploadType": {
+        "type": "string",
+        "description": "Upload method",
+        "enum": [
+          "http",
+          "data"
+        ],
+        "example": "http"
+      },
+      "uploadImg": {
+        "type": "string",
+        "description": "Either http url or data url",
+        "example": "http://example.image"
+      },
+      "UploadReq": {
+        "type": "object",
+        "description": "An image uploading request",
+        "properties": {
+          "title": {
+            "$ref": "#/components/schemas/imgTitle"
+          },
+          "author": {
+            "$ref": "#/components/schemas/imgAuthor"
+          },
+          "desc": {
+            "$ref": "#/components/schemas/imgDesc"
+          },
+          "imgType": {
+            "$ref": "#/components/schemas/uploadType"
+          },
+          "img": {
+            "$ref": "#/components/schemas/uploadImg"
+          }
+        }
+      },
+      "UploadObj": {
+        "type": "object",
+        "description": "Result of a upload operation",
+        "properties": {
+          "imgId": {
+            "$ref": "#/components/schemas/imgId"
+          }
+        }
+      },
+      "UploadRes": {
+        "type": "object",
+        "description": "Response of a upload operation",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/statusCode"
+          },
+          "data": {
+            "$ref": "#/components/schemas/UploadObj"
+          }
+        }
+      },
+      "roomId": {
+        "type": "string",
+        "description": "Room ID",
+        "example": "123abc"
+      }
+    }
+  }
+}

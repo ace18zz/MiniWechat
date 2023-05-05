@@ -59,12 +59,12 @@ When you click the `Copy Share Link` button, the share link of the room will be 
 ![home](screenshots/home.jpeg)
 
 ![upload](screenshots/upload.jpeg)
+## Screenshots
+![join](screenshots/join.jpeg)
 
-![home](screenshots\join.jpeg)
+![guide](screenshots/guide.jpeg)
 
-![home](screenshots\guide.jpeg)
-
-![home](screenshots\room.jpeg)
+![room](screenshots/room.jpeg)
 
 ## Roadmap/TODO
 
